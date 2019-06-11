@@ -1,0 +1,28 @@
+{
+  "name": "serverless-custom-buckets",
+  "version": "0.0.1",
+  "description": "Create and configure multiple custom s3 buckets",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "serverless",
+    "serverless framework",
+    "serverless plugin",
+    "serverless plugins",
+    "amazon web services",
+    "plugin",
+    "custom",
+    "s3",
+    "s3 bucket",
+    "serverless bucket",
+    "buckets"
+  ],
+  "author": "David Kananda",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "serverless": "^1.44.1"
+  }
+}
