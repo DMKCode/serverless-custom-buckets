@@ -1,105 +1,15 @@
-service: fx-ipay-api-confirmations
+service: serverless-custom-buckets-example
 
 provider:
     name: aws
-    apiName: ipay-confirmations
-    runtime: ${file(../../config/serverless/provider/provider.yml):runtime}
-    stage: ${file(../../config/serverless/provider/provider.yml):stage}
-    region: ${file(../../config/serverless/provider/provider.yml):region}
-    versionFunctions: ${file(../../config/serverless/provider/provider.yml):versionFunctions}
-    deploymentBucket:
-        name: ${file(../../config/serverless/provider/deployment.js):name}
-        serverSideEncryption: ${file(../../config/serverless/provider/deployment.js):serverSideEncryption}
-    deploymentPrefix: ${file(../../config/serverless/provider/deployment.js):deploymentPrefix}
-    apiGateway: ${file(../../config/serverless/provider/provider.yml):apiGateway}
-    vpc: ${file(../../config/serverless/provider/provider.yml):vpc}
-    iamRoleStatements:
-        - Effect: 'Allow'
-          Action:
-              - 'xray:PutTraceSegments'
-              - 'xray:PutTelemetryRecords'
-          Resource:
-              - '*'
-        - Effect: 'Allow'
-          Action:
-              - 'sns:*'
-          Resource: '*'
-        - Effect: 'Allow'
-          Action:
-              - 's3:ListBucket'
-              - 's3:Put*'
-              - 's3:GetObject'
-          Resource:
-              - '*'
-        - Effect: 'Allow'
-          Action:
-              - 'lambda:InvokeFunction'
-          Resource:
-              - 'arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:fx-ipay-api-pdf-${opt:stage}-generatePdf'
-    environment:
-        IPAY_DB_HOST: ${file(../../config/serverless/provider/provider.yml):environment.IPAY_DB_HOST}
-        IPAY_DB_USER: ${file(../../config/serverless/provider/provider.yml):environment.IPAY_DB_USER}
-        IPAY_DB_PWORD: ${file(../../config/serverless/provider/provider.yml):environment.IPAY_DB_PWORD}
-        IPAY_DB_NAME: ${file(../../config/serverless/provider/provider.yml):environment.IPAY_DB_NAME}
-        CFX_DB_HOST: ${ssm:/IPAY/CFX_DB_HOST~true}
-        CFX_DB_USER: ${ssm:/IPAY/CFX_DB_USER~true}
-        CFX_DB_PWORD: ${ssm:/IPAY/CFX_DB_PWORD~true}
-        accountId: ${file(../../config/serverless/provider/provider.yml):environment.accountId}
-        region: ${file(../../config/serverless/provider/provider.yml):environment.region}
-        s3_confirmation_bucket: ${self:custom.s3_confirmation_bucket}
+    apiName: serverless-custom-buckets-example
+    runtime: nodejs8.10
+    stage: dev
+    region: eu-west-2
 
 custom:
-    customDomain: ${file(../../config/serverless/custom.yml):customDomain}
-    webpack: ${file(../../config/serverless/custom.yml):webpack}
-    region: ${file(../../config/serverless/custom.yml):region}
-    stage: ${file(../../config/serverless/custom.yml):stage}
-    prefix: ${file(../../config/serverless/custom.yml):prefix}
-    scripts: ${file(../../config/serverless/custom.yml):scripts}
-    s3_confirmation_bucket: ${file(../../config/serverless/custom.yml):s3_confirmation_bucket}
     customBuckets:
-        - name: ipay-test-bucket-1
-          #   config:
-          #       versioning: true
-          #       serverSideEncryption: AES256
-          #       publicAccess:
-          #           PublicAccessBlockConfiguration:
-          #               BlockPublicAcls: true
-          #               BlockPublicPolicy: true
-          #               IgnorePublicAcls: true
-          #               RestrictPublicBuckets: true
-          config:
-              versioning: ${file(../../config/serverless/custom.js):versioning}
-              serverSideEncryption: ${file(../../config/serverless/custom.js):serverSideEncryption}
-              publicAccess: ${file(../../config/serverless/custom.js):publicAccess}
-        - name: ipay-test-bucket-2
-          #   config:
-          #       versioning: true
-          #       serverSideEncryption: AES256
-          #       publicAccess:
-          #           PublicAccessBlockConfiguration:
-          #               BlockPublicAcls: true
-          #               BlockPublicPolicy: true
-          #               IgnorePublicAcls: true
-          #               RestrictPublicBuckets: true
-          config:
-              versioning: ${file(../../config/serverless/custom.js):versioning}
-              serverSideEncryption: ${file(../../config/serverless/custom.js):serverSideEncryption}
-              publicAccess: ${file(../../config/serverless/custom.js):publicAccess}
-        - name: ipay-test-bucket-3
-          #   config:
-          #       versioning: true
-          #       serverSideEncryption: AES256
-          #       publicAccess:
-          #           PublicAccessBlockConfiguration:
-          #               BlockPublicAcls: true
-          #               BlockPublicPolicy: true
-          #               IgnorePublicAcls: true
-          #               RestrictPublicBuckets: true
-          config:
-              versioning: ${file(../../config/serverless/custom.js):versioning}
-              serverSideEncryption: ${file(../../config/serverless/custom.js):serverSideEncryption}
-              publicAccess: ${file(../../config/serverless/custom.js):publicAccess}
-        - name: ipay-test-bucket-4
+        - name: test-bucket-1
           config:
               versioning: true
               serverSideEncryption: AES256
@@ -109,27 +19,7 @@ custom:
                       BlockPublicPolicy: true
                       IgnorePublicAcls: true
                       RestrictPublicBuckets: true
-        - name: ipay-test-bucket-5
-          config:
-              versioning: true
-              serverSideEncryption: AES256
-              publicAccess:
-                  PublicAccessBlockConfiguration:
-                      BlockPublicAcls: true
-                      BlockPublicPolicy: true
-                      IgnorePublicAcls: true
-                      RestrictPublicBuckets: true
-        - name: ipay-test-bucket-6
-          config:
-              versioning: true
-              serverSideEncryption: AES256
-              publicAccess:
-                  PublicAccessBlockConfiguration:
-                      BlockPublicAcls: true
-                      BlockPublicPolicy: true
-                      IgnorePublicAcls: true
-                      RestrictPublicBuckets: true
-        - name: fx-ipay-confirmations-uploads
+        - name: test-bucket-2
           config:
               versioning: true
               serverSideEncryption: AES256
@@ -152,55 +42,11 @@ custom:
 
 plugins:
     - serverless-custom-buckets
-    - serverless-deployment-bucket
-    - serverless-webpack
-    - serverless-offline
-    - serverless-plugin-tracing
-    - serverless-plugin-scripts
-    - serverless-pseudo-parameters
-    - serverless-aws-documentation
-    - serverless-domain-manager
-
-resources:
-    Resources:
-        ipayConfirmationQueue:
-            Type: AWS::SQS::Queue
-            Properties:
-                QueueName: '${self:service}-${opt:stage}-confirmation'
-                MessageRetentionPeriod: 60
 
 functions:
-    createConfirmation:
-        handler: src/handlers/create.handler
-        environment:
-            api_url:
-                {
-                    'Fn::Join':
-                        [
-                            '',
-                            [
-                                'https://',
-                                '${self:provider.apiGateway.restApiId}',
-                                '.execute-api.${self:custom.region}.amazonaws.com/${self:custom.stage}',
-                            ],
-                        ],
-                }
-            pdf_lambda: 'fx-ipay-api-pdf-${opt:stage}-generatePdf'
-        events:
-            - sqs:
-                  arn:
-                      Fn::GetAtt:
-                          - ipayConfirmationQueue
-                          - Arn
-                  batchSize: 1
-
-    getHtmlConfirmation:
-        handler: src/handlers/getHtml.handler
+    helloServerless:
+        handler: index.handler
         events:
             - http:
-                  path: confirm
+                  path: hello
                   method: get
-                  request:
-                      parameters:
-                          querystrings:
-                              key: true
