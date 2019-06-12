@@ -5,7 +5,7 @@ const AwsProvider = jest.genMockFromModule(
 );
 const CLI = jest.genMockFromModule('serverless/lib/classes/CLI');
 
-describe.only('CustomBucketPlugin', () => {
+describe('CustomBucketPlugin', () => {
   let plugin;
   let serverless;
   let options;
