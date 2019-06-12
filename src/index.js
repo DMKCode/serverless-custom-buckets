@@ -89,7 +89,6 @@ class CustomBucketPlugin {
       return true;
     } catch (e) {
       this.serverless.cli.log(`Unable to wait for '${state}' - ${e.message}`);
-      console.log('waiting: ', e);
 
       return false;
     }
@@ -192,24 +191,10 @@ class CustomBucketPlugin {
       ...publicAccess
     };
 
-    // return this.provider.request('S3', 'putPublicAccessBlock', params);
-    try {
-      await this.provider.request('S3', 'putPublicAccessBlock', params);
-      this.maxRetries = 3;
-    } catch (e) {
-      console.log(e);
-      if (e.statusCode === 404 && this.maxRetries > 0) {
-        console.log(' ');
-        console.log('----Retrying putPublicAccessBlock---');
-        console.log(' ');
-        await this.putBucketPublicAccess(name, publicAccess);
-        this.maxRetries -= 1;
-        console.log('max retries: ', this.maxRetries);
-      } else {
-        this.maxRetries = 3;
-        throw e;
-      }
-    }
+    return await this.makeRequestWithRetries({
+      operationName: 'putPublicAccessBlock',
+      params
+    });
   }
 
   async putBucketCors(name, cors) {
@@ -322,7 +307,6 @@ class CustomBucketPlugin {
         }
       });
     } catch (e) {
-      console.log(e);
       console.error(
         `\n-------- ${this.logPrefix} Custom Bucket Create Error --------\n${
           e.message
