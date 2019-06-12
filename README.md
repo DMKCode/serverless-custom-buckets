@@ -11,6 +11,7 @@ This plugin aims to solve the above problems by allowing you to create your cust
 ## Install
 
 `yarn add serverless-custom-buckets --dev`
+
 `npm install serverless-custom-buckets --save-dev`
 
 ## Configuration
