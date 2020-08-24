@@ -51,11 +51,11 @@ custom:
             CORSRules:
               - AllowedHeaders:
                   - '*'
-              - AllowedMethods:
+                AllowedMethods:
                   - 'HEAD'
-              - AllowedOrigins:
+                AllowedOrigins:
                   - '*'
-              - MaxAgeSeconds: 3000
+                MaxAgeSeconds: 3000
 ```
 
 | Property                      | Required | Type      | Default | Description                                |
