@@ -45,7 +45,8 @@ custom:
             BlockPublicAcls: true
             BlockPublicPolicy: true
             IgnorePublicAcls: true
-            RestrictPublicBuckets: true
+						RestrictPublicBuckets: true
+
 				cors:
 					CORSConfiguration:
 						CORSRules:
