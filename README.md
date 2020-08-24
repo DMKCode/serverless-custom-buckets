@@ -45,18 +45,17 @@ custom:
             BlockPublicAcls: true
             BlockPublicPolicy: true
             IgnorePublicAcls: true
-						RestrictPublicBuckets: true
-
-				cors:
-					CORSConfiguration:
-						CORSRules:
-							- AllowedHeaders:
-									- '*'
-								AllowedMethods:
-									- 'HEAD'
-								AllowedOrigins:
-									- '*'
-								MaxAgeSeconds: 3000
+            RestrictPublicBuckets: true
+        cors:
+          CORSConfiguration:
+            CORSRules:
+              - AllowedHeaders:
+                  - '*'
+              - AllowedMethods:
+                  - 'HEAD'
+              - AllowedOrigins:
+                  - '*'
+              - MaxAgeSeconds: 3000
 ```
 
 | Property                      | Required | Type      | Default | Description                                |
